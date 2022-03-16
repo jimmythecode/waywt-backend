@@ -36,6 +36,12 @@ public class UserActionLogService : IUserActionLogService
         return _userActionLogCollection.Find(userActionLog => true).ToList();
     }
 
+    public async Task<List<UserActionLog>> GetAsync() =>
+        await _userActionLogCollection.Find(_ => true).ToListAsync(); // Select all documents (aka records/rows)
+
+    public async Task<UserActionLog?> GetAsync(string id) =>
+        await _userActionLogCollection.Find(x => x.Id == id).FirstOrDefaultAsync(); // Select with this ID
+
     public UserActionLog Get(string id)
     {
         return _userActionLogCollection.Find(userActionLog => userActionLog.Id == id).FirstOrDefault();

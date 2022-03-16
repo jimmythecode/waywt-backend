@@ -8,105 +8,106 @@ namespace waywt_backend.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [JsonPropertyName("id")]
         public string? Id { get; set; }
 
-        [BsonElement("device")] // Describes the property name we're looking for from the database.
-        [JsonPropertyName("Device")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
-        public DeviceData Device { get; set; } = null!;
+        [BsonElement("deviceDataObject")] // Describes the property name we're looking for from the database.
+        [JsonPropertyName("deviceDataObject")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
+        public DeviceData DeviceDataObject { get; set; } = null!;
 
-        [BsonElement("location")]
-        [JsonPropertyName("Location")]
-        public LocationData Location { get; set; } = null!;
+        [BsonElement("geolocationObject")]
+        [JsonPropertyName("geolocationObject")]
+        public LocationData GeolocationObject { get; set; } = null!;
 
-        [BsonElement("geoLocation")]
-        [JsonPropertyName("GeoLocation")]
-        public GeolocationData Geolocation { get; set; } = null!;
+        [BsonElement("ipObject")]
+        [JsonPropertyName("ipObject")]
+        public IpData IpObject { get; set; } = null!;
 
         public class LocationData
         {
             [BsonElement("IPv4")] // Describes the property name we're looking for from the database.
-            [JsonPropertyName("IPv4")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
+            [JsonPropertyName("iPv4")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
             public string IPv4 { get; set; } = null!;
 
             [BsonElement("city")]
-            [JsonPropertyName("City")]
+            [JsonPropertyName("city")]
             public string City { get; set; } = null!;
 
             [BsonElement("country_code")]
-            [JsonPropertyName("Country_code")]
+            [JsonPropertyName("country_code")]
             public string Country_code { get; set; } = null!;
 
             [BsonElement("country_name")]
-            [JsonPropertyName("Country_name")]
+            [JsonPropertyName("country_name")]
             public string Country_name { get; set; } = null!;
 
             [BsonElement("latitude")]
-            [JsonPropertyName("Latitude")]
+            [JsonPropertyName("latitude")]
             public double Latitude { get; set; } = 0!;
 
             [BsonElement("longitude")]
-            [JsonPropertyName("Longitude")]
+            [JsonPropertyName("longitude")]
             public double Longitude { get; set; } = 0!;
 
             [BsonElement("postal")]
-            [JsonPropertyName("Postal")]
+            [JsonPropertyName("postal")]
             public string Postal { get; set; } = null!;
 
             [BsonElement("state")]
-            [JsonPropertyName("State")]
+            [JsonPropertyName("state")]
             public string State { get; set; } = null!;
         }
         public class DeviceData
         {
             [BsonElement("browserName")] // Describes the property name we're looking for from the database.
-            [JsonPropertyName("BrowserName")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
+            [JsonPropertyName("browserName")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
             public string BrowserName { get; set; } = null!;
 
             [BsonElement("deviceType")]
-            [JsonPropertyName("DeviceType")]
+            [JsonPropertyName("deviceType")]
             public string DeviceType { get; set; } = null!;
 
             [BsonElement("getUA")]
-            [JsonPropertyName("GetUA")]
-            public string getUA { get; set; } = null!;
+            [JsonPropertyName("getUA")]
+            public string GetUA { get; set; } = null!;
 
             [BsonElement("mobileModel")]
-            [JsonPropertyName("MobileModel")]
+            [JsonPropertyName("mobileModel")]
             public string MobileModel { get; set; } = null!;
 
             [BsonElement("mobileVendor")]
-            [JsonPropertyName("MobileVendor")]
+            [JsonPropertyName("mobileVendor")]
             public string MobileVendor { get; set; } = null!;
 
             [BsonElement("osName")]
-            [JsonPropertyName("OsName")]
+            [JsonPropertyName("osName")]
             public string OsName { get; set; } = null!;
         }
 
-        public class GeolocationData
+        public class IpData
         {
             [BsonElement("ip")]
-            [JsonPropertyName("Ip")]
+            [JsonPropertyName("ip")]
             public string Ip { get; set; } = null!;
 
-            public GeolocationData()
+            public IpData()
             {
             }
         }
 
         public class Incoming
         {
-            [BsonElement("device")] // Describes the property name we're looking for from the database.
-            [JsonPropertyName("Device")] // Describes the property name that we will convert to once we're about to send. Otherwise it would default to IpAddress (as per ASP.NET pascal case requirements)
-            public DeviceData Device { get; set; } = null!;
+            [BsonElement("deviceDataObject")] // Describes the property name we're looking for from the database.
+            [JsonPropertyName("deviceDataObject")]
+            public DeviceData DeviceDataObject { get; set; } = null!;
 
-            [BsonElement("location")]
-            [JsonPropertyName("Location")]
-            public LocationData Location { get; set; } = null!;
+            [BsonElement("geolocationObject")]
+            [JsonPropertyName("geolocationObject")]
+            public LocationData GeolocationObject { get; set; } = null!;
 
-            [BsonElement("geoLocation")]
-            [JsonPropertyName("GeoLocation")]
-            public GeolocationData Geolocation { get; set; } = null!;
+            [BsonElement("ipObject")]
+            [JsonPropertyName("ipObject")]
+            public IpData IpObject { get; set; } = null!;
         }
     }
 

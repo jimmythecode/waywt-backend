@@ -18,11 +18,16 @@ namespace waywt_backend.Controllers
             _userActionLogService = userActionLogService;
         }
 
-        [HttpGet]
-        public async Task<List<Session>> Get() =>
+        //[HttpGet("sessions")]
+        public async Task<List<Session>> GetSessions() =>
             await _sessionService.GetAsync();
 
-        [HttpGet("{id:length(24)}")]
+        //[HttpGet("actionlogs")]
+        public async Task<List<UserActionLog>> GetActionLogs() =>
+            await _userActionLogService.GetAsync();
+
+
+        //[HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Session>> Get(string id)
         {
             var visitorsUserAgentLog = await _sessionService.GetAsync(id);
@@ -46,7 +51,7 @@ namespace waywt_backend.Controllers
 
             await _sessionService.CreateAsync(newSession); // Fires the database call in SessionService.cs to create a new Session document/record.
 
-            return CreatedAtAction(nameof(Get), new { id = newSession.Id }, newSession); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
+            return CreatedAtAction(nameof(GetSessions), new { id = newSession.Id }, newSession); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
         }
 
         //Create a new UserActionLog document.
@@ -60,24 +65,24 @@ namespace waywt_backend.Controllers
 
             await _userActionLogService.CreateAsync(newUserActionLog); // Fires the database call in SessionService.cs to create a new Session document/record.
 
-            return CreatedAtAction(nameof(Get), new { id = newUserActionLog.Id }, newUserActionLog); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
+            return CreatedAtAction(nameof(GetActionLogs), new { id = newUserActionLog.Id }, newUserActionLog); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
         }
 
         // Create several UserActionLog documents.
         [HttpPost("interval")]
-        public async Task<IActionResult> PostInterval(IEnumerable<UserActionLog> listOfLogs)
+        public async Task<IActionResult> PostInterval(AnalyticsInputs bodyObject)
         {
-            if (listOfLogs == null)
+            if (bodyObject == null)
             {
                 return BadRequest();
             }
 
-            await _userActionLogService.CreateManyAsync(listOfLogs); // Fires the database call in SessionService.cs to create a new Session document/record.
+            await _userActionLogService.CreateManyAsync(bodyObject.LogOfUserActions); // Fires the database call in SessionService.cs to create a new Session document/record.
 
-            return CreatedAtAction(nameof(Get), new { }, listOfLogs); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
+            return CreatedAtAction(nameof(GetActionLogs), new { }, bodyObject); // this uses the Get() method we defined above to retrieve the added document/record from the database. The second argument is the id search param, the third argument is the object to retrieve the id search param from.
         }
 
-        [HttpPut("{id:length(24)}")]
+        //[HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Update(string id, Session updatedSession)
         {
             var visitorsUserAgentLog = await _sessionService.GetAsync(id);
@@ -94,12 +99,12 @@ namespace waywt_backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        //[HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
             var sessionLog = await _sessionService.GetAsync(id);
 
-            if (sessionLog is null)
+            if (sessionLog is null || sessionLog.Id is null)
             {
                 return NotFound();
             }
